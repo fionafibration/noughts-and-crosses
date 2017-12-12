@@ -79,7 +79,18 @@ def drawBoard(board, piecemap):
     
 def main():
     global board, humanplayer, aiplayer, piecemap
-    
+    if winning(board, aiplayer):
+        print("I won! I beat your sorry little ass!")
+        input()
+        return 1
+    elif winning(board, humanplayer):
+        print("There has been an error in my programming.\nThis message should never be shown, because I always win.")
+        input()
+        return 1
+    elif len(countAvailablePositions(board)) == 0:
+        print("Tie game! I'll get you next time!")
+        input()
+        return 1
     print("Your move:\n")
     drawBoard(board, piecemap)
     good = False
@@ -117,16 +128,7 @@ def main():
             board[aimove["index"]] = aiplayer
             drawBoard(board, piecemap)
     except:
-        if winning(board, aiplayer):
-            drawBoard(board, piecemap)
-            print("I won! I beat your sorry little ass!")
-            input()
-            return 1
-        elif winning(board, humanplayer):
-            print("There has been an error in my programming.\nThis message should never be shown, because I always win.")
-            input()
-            return 1
-        elif len(countAvailablePositions(board)) == 0:
+        if len(countAvailablePositions(board)) == 0:
             print("Tie game! I'll get you next time!")
             input()
             return 1
