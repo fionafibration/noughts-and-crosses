@@ -1,6 +1,7 @@
 from random import choice
 from collections import Counter
 import pprint
+from copy import deepcopy
 
 humanplayer = 1
 aiplayer = 2
@@ -109,29 +110,30 @@ def main():
             print("Invalid move")
 
     board[move] = humanplayer
-
-    drawBoard(board, piecemap)
-
-    aimove = {}
     
-    aimove = MiniMax(board, aiplayer)
-
-    if winning(board, aiplayer):
-            print("I won! I beat your sorry little ass!")
-            input()
-            sys.exit()
-    elif winning(board, humanplayer):
-            print("There has been an error in my programming.\nThis message should never be shown, because I always win.")
-            input()
-            sys.exit()
+    if winning(board, humanplayer):
+        print("There has been an error in my programming.\nThis message should never be shown, because I always win.")
+        input()
+        sys.exit()
+    
+    drawBoard(board, piecemap)
+    
+    
+    aimove = {}
+    minmaxboard = copy.deepcopy(board)
+    
+    aimove = MiniMax(minmaxboard, aiplayer)
+    
+    if aimove["index"] in countAvailablePositions(board):
+        board[aimove["index"]] = aiplayer
     else:
-        if aimove["index"] in countAvailablePositions(board):
-            board[aimove["index"]] = aiplayer
-        else:
-            print("Fatal error!")
-            input()
-            sys.exit()
-    return 0
+        print("Fatal error!")
+        input()
+        sys.exit()
+    if winning(board, aiplayer):
+        print("I won! I beat your sorry little ass!")
+        input()
+        sys.exit()
 
 if __name__ == "__main__":
     board = [0,0,0,
